@@ -27,7 +27,7 @@ export interface TV{
     overview: string;
     popularity: number;
     poster_path: string;
-    vote_average: string;
+    vote_average: number;
     vote_count: string;
 }
 
