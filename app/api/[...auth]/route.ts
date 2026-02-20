@@ -1,6 +1,5 @@
 import { auth } from "@/lib/auth";
 import { toNextJsHandler } from "better-auth/next-js";
 
-const handler = toNextJsHandler(auth);
-
-export { handler as GET, handler as POST };
+// toNextJsHandler đã tự động destructure ra GET và POST functions chuẩn cho Next.js
+export const { GET, POST } = toNextJsHandler(auth);
