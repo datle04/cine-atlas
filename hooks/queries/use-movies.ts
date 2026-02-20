@@ -1,10 +1,12 @@
 import { getPopularMovies, getTrendingMovies } from "@/services/tmdb.service"
+import { Movie } from "@/types/tmdb";
 import { useQuery } from "@tanstack/react-query"
 
-export const useTrendingMovies = () => {
+export const useTrendingMovies = (initialData?: Movie[]) => {
     return useQuery({
-        queryKey: ['movies', 'trending'],
-        queryFn: () => getTrendingMovies("day")
+        queryKey: ["movies", "trending"],
+        queryFn: () => getTrendingMovies(),
+        initialData: initialData, // Nhận dữ liệu từ Server Component
     });
 };
 
