@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useSession, signOut } from "@/lib/auth-client";
 import { Film, User, LogOut } from "lucide-react";
+import { SearchBar } from "./search-bar";
 
 export function Navbar() {
   const router = useRouter();
@@ -40,6 +41,9 @@ export function Navbar() {
         </Link>
         
         <div className="flex items-center gap-4">
+          
+          <SearchBar/>
+
           <nav className="hidden md:flex gap-6 text-sm font-medium text-muted-foreground mr-4">
             <Link href="/discover" className="hover:text-foreground transition-colors">Discover</Link>
             {session && (

@@ -10,3 +10,15 @@ export const getPopularMovies = async () => {
   const { data } = await tmdbClient.get<TMDBResponse<Movie>>("/movie/popular");
   return data.results;
 };
+
+export const searchMulti = async (query: string) => {
+  if (!query) return [];
+  const { data } = await tmdbClient.get<TMDBResponse<any>>("/search/multi", {
+    params: { 
+      query, 
+      include_adult: false,
+    },
+  });
+
+  return data.results
+};
