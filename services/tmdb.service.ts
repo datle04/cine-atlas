@@ -1,5 +1,5 @@
 import { tmdbClient } from "@/lib/tmdb-client";
-import { Movie, TMDBResponse } from "@/types/tmdb";
+import { Movie, TMDBResponse, TV } from "@/types/tmdb";
 
 export const getTrendingMovies = async (timeWindow: "day" | "week" = "day") => {
   const { data } = await tmdbClient.get<TMDBResponse<Movie>>(`/trending/movie/${timeWindow}`);
@@ -21,4 +21,14 @@ export const searchMulti = async (query: string) => {
   });
 
   return data.results
+};
+
+export const getTopRatedMovies = async () => {
+  const { data } = await tmdbClient.get<TMDBResponse<Movie>>("/movie/top_rated");
+  return data.results;
+};
+
+export const getPopularTVShows = async () => {
+  const { data } = await tmdbClient.get<TMDBResponse<TV>>("/tv/popular");
+  return data.results;
 };
