@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { QueryProvider } from "@/providers/query-provider";
 import "./globals.css";
 import { Navbar } from "@/components/shared/navbar";
+import { Footer } from "@/components/shared/footer";
 
 const beVietnamPro = Be_Vietnam_Pro({ 
   subsets: ["latin", "vietnamese"], 
@@ -35,6 +36,8 @@ export default function RootLayout({
             <main className="min-h-screen bg-background text-foreground">
               {children}
             </main>
+
+            <Footer/>
           </QueryProvider>
         </ThemeProvider>
       </body>
