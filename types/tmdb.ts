@@ -31,7 +31,7 @@ export interface TV{
     vote_count: string;
 }
 
-export interface People {
+export interface Person {
     adult: boolean;
     also_known_as: string[];
     biography: string;
