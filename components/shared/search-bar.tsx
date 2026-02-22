@@ -17,7 +17,9 @@ export function SearchBar() {
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedQuery = useDebounce(query, 500);
+  
   const { data: results, isLoading } = useSearch(debouncedQuery);
+
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -136,9 +138,9 @@ export function SearchBar() {
                       <div className="flex items-center justify-center p-6">
                         <Loader2 className="h-6 w-6 animate-spin text-primary" />
                       </div>
-                    ) : results && results.length > 0 ? (
+                    ) : results && results.results.length > 0 ? (
                       <div className="max-h-[70vh] md:max-h-[400px] overflow-y-auto py-2 hide-scrollbar">
-                        {results.slice(0, 5).map((item: any) => {
+                        {results.results.slice(0, 5).map((item: any) => {
                              const isPerson = item.media_type === "person";
                              const title = item.title || item.name;
                              const imagePath = isPerson ? item.profile_path : item.poster_path;
