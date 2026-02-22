@@ -74,13 +74,39 @@
     @apply bg-background/60 backdrop-blur-md border-b border-white/10;
   }
 
-  .hide-scrollbar::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
-  /* Ẩn thanh cuộn Firefox & IE */
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* THANH CUỘN CUSTOM MỚI */
+  .custom-scrollbar {
+    /* Dành cho Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  /* Dành cho Chrome, Edge, Safari */
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 6px; /* Độ dày của thanh cuộn ngang */
+    width: 6px;  /* Độ dày của thanh cuộn dọc */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* Nền trong suốt */
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--border)); /* Màu của thanh trượt (sẽ tự đổi theo Sáng/Tối) */
+    border-radius: 10px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground)); /* Đậm lên khi rê chuột vào */
   }
 }
 
