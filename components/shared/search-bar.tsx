@@ -14,6 +14,7 @@ export function SearchBar() {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileMode, setIsMobileMode] = useState(false); 
+  const [mounted, setMounted] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedQuery = useDebounce(query, 500);
@@ -49,6 +50,17 @@ export function SearchBar() {
     setIsOpen(false);
     setQuery("");
   };
+
+  // Avoid Hydration
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="hidden md:flex relative w-full max-w-sm h-10 bg-muted/50 rounded-full animate-pulse" />
+    );
+  }
 
   return (
     <div ref={searchRef} className="flex items-center justify-end">

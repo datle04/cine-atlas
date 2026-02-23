@@ -243,6 +243,7 @@ export interface Cast extends BaseCastCrew {
 }
 
 export interface Crew extends BaseCastCrew {
+    department: string;
     job: string;
     credit_id: string;
 }
@@ -333,6 +334,24 @@ export interface Video {
     id: string;
 }
 
+export interface ImageItem {
+    aspect_ratio: number | 0;
+    height: number | 0;
+    iso_639_1: string;
+    file_path: string;
+    vote_average: number | 0;
+    vote_count: number | 0;
+    width: number | 0;
+}
+
+export interface ImageResponse {
+    id: number;
+    backdrops: ImageItem[];
+    logos: ImageItem[];
+    posters: ImageItem[];
+}
+
+
 export interface VideosResponse {
     id: number;
     results: Video[];
@@ -341,7 +360,7 @@ export interface VideosResponse {
 export interface ReviewsResponse {
     page: number;
     id: number;
-    results: (Omit<Review, "iso_639_1" | "media_id" | "media_title" | "media_type">);
+    results: (Omit<Review, "iso_639_1" | "media_id" | "media_title" | "media_type">)[];
     total_pages: number;
     total_results: number;
 }
@@ -352,3 +371,4 @@ export interface TMDBResponse<T>{
     total_pages: number;
     total_results: number;
 }
+
