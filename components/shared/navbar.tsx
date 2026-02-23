@@ -16,10 +16,10 @@ import {
 import { useSession, signOut } from "@/lib/auth-client";
 import { Film, User, LogOut } from "lucide-react";
 import { SearchBar } from "./search-bar";
+import { useEffect, useState } from "react";
 
 export function Navbar() {
   const router = useRouter();
-  
   const { data: session, isPending } = useSession();
 
   const handleSignOut = async () => {
@@ -52,7 +52,7 @@ export function Navbar() {
           </nav>
           
           <div className="flex items-center gap-3">
-            <ThemeToggle />
+            <ThemeToggle/>
             
             <div className="h-6 w-[1px] bg-border hidden sm:block"></div>
 
