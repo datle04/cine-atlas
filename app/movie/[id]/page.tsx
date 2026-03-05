@@ -266,7 +266,6 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
               <div className="space-y-3">
                 <h4 className="font-bold text-foreground">Keywords</h4>
                 <div className="flex flex-wrap gap-2">
-                  {/* Thay thế bằng dữ liệu keywords thật sau này */}
                   {["blockbuster", "action", "hero", "sequel"].map((keyword, idx) => (
                     <span key={idx} className="px-3 py-1 bg-secondary text-secondary-foreground rounded-md text-xs font-medium border border-border/50 hover:bg-muted cursor-pointer transition-colors">
                       {keyword}
