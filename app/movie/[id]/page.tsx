@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getMovieDetails, getMovieCredits, getMovieVideos, getSimilarMovies, getMovieReviews, getMovieImages, getMovieAllVideos } from "@/services/tmdb.service";
+import { getMovieDetails, getMovieCredits, getMovieVideos, getSimilarMovies, getMovieReviews, getMovieImages, getMovieAllVideos, getMovieKeywords } from "@/services/tmdb.service";
 import { CircularRating } from "@/components/shared/circular-rating";
 import { PageTransition } from "@/components/shared/page-transition";
 import { Button } from "@/components/ui/button";
@@ -18,14 +18,15 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
   
 
   // Gọi các API song song để lấy đầy đủ dữ liệu
-  const [movie, credits, videos, similar, reviewsData, imagesData, allVideos] = await Promise.all([
+  const [movie, credits, videos, similar, reviewsData, imagesData, allVideos, keywords] = await Promise.all([
     getMovieDetails(id),
     getMovieCredits(id),
     getMovieVideos(id),
     getSimilarMovies(id),
     getMovieReviews(id),
     getMovieImages(id), 
-    getMovieAllVideos(id)
+    getMovieAllVideos(id),
+    getMovieKeywords(id),
   ]);
 
   const backdropUrl = movie.backdrop_path ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}` : "";
@@ -206,6 +207,7 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
 
               {/* Media Section */}
               <MediaSection 
+                movieId={id}
                 videos={allVideos} 
                 backdrops={imagesData.backdrops} 
                 posters={imagesData.posters} 
@@ -266,9 +268,9 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
               <div className="space-y-3">
                 <h4 className="font-bold text-foreground">Keywords</h4>
                 <div className="flex flex-wrap gap-2">
-                  {["blockbuster", "action", "hero", "sequel"].map((keyword, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-secondary text-secondary-foreground rounded-md text-xs font-medium border border-border/50 hover:bg-muted cursor-pointer transition-colors">
-                      {keyword}
+                  {keywords.map((keyword, idx) => (
+                    <span key={keyword.id} className="px-3 py-1 bg-secondary text-secondary-foreground rounded-md text-xs font-medium border border-border/50 hover:bg-muted cursor-pointer transition-colors">
+                      {keyword.name}
                     </span>
                   ))}
                 </div>
