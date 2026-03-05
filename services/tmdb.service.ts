@@ -1,5 +1,5 @@
 import { tmdbClient } from "@/lib/tmdb-client";
-import { Credits, Genre, ImageResponse, Movie, MovieDetails, Person, PersonDetails, ReviewsResponse, TMDBResponse, TV, TVDetails, VideosResponse } from "@/types/tmdb";
+import { Credits, Genre, ImageResponse, KeywordsResponse, Movie, MovieDetails, Person, PersonDetails, ReviewsResponse, TMDBResponse, TV, TVDetails, VideosResponse } from "@/types/tmdb";
 
 // ==========================================
 // 1. TRENDING & DISCOVER
@@ -145,3 +145,8 @@ export const getMovieImages = async (id: string | number) => {
   });
   return data;
 };
+
+export const getMovieKeywords = async (id: string | undefined) => {
+  const { data } = await tmdbClient.get<KeywordsResponse>(`/movie/${id}/keywords`);
+  return data.keywords;
+}

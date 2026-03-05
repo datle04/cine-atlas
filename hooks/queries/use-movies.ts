@@ -48,6 +48,14 @@ export const useMovieVideos = (id: string | number) => {
   });
 };
 
+export const useMovieKeywords = (id: string | undefined) => {
+  return useQuery({
+    queryKey: ["movie", "keywords", id],
+    queryFn: () => tmdbService.getMovieKeywords(id),
+    enabled: !!id,
+  })
+}
+
 export const useSimilarMovies = (id: string | number) => {
   return useQuery({
     queryKey: ["movie", "similar", id],
