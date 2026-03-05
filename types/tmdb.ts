@@ -334,6 +334,11 @@ export interface Video {
     id: string;
 }
 
+export interface Keyword {
+    id: number | 0;
+    name: string;
+}
+
 export interface ImageItem {
     aspect_ratio: number | 0;
     height: number | 0;
@@ -355,6 +360,11 @@ export interface ImageResponse {
 export interface VideosResponse {
     id: number;
     results: Video[];
+}
+
+export interface KeywordsResponse {
+    id: number | 0;
+    keywords: Keyword[];
 }
 
 export interface ReviewsResponse {

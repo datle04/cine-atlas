@@ -6,7 +6,7 @@ import { PageTransition } from "@/components/shared/page-transition";
 import { Button } from "@/components/ui/button";
 import { Play, Plus, Link as LinkIcon, Facebook, Twitter, Instagram, MoveRight, UserStar } from "lucide-react";
 import { TrailerButton } from "@/components/features/movie/trailer-button";
-import { MediaCard } from "@/components/shared/media-card"; // Import để dùng cho mục Recommendations
+import { MediaCard } from "@/components/shared/media-card"; 
 import { MediaSection } from "@/components/features/movie/media-section";
 
 interface MovieDetailPageProps {
