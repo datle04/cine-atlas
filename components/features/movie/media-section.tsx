@@ -4,8 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import { Play } from "lucide-react";
 import { Video, ImageItem } from "@/types/tmdb";
+import Link from "next/link";
 
 interface MediaSectionProps {
+  movieId: string;
   videos: Video[];
   backdrops: ImageItem[];
   posters: ImageItem[];
@@ -13,7 +15,7 @@ interface MediaSectionProps {
 
 type TabType = "popular" | "videos" | "backdrops" | "posters";
 
-export function MediaSection({ videos, backdrops, posters }: MediaSectionProps) {
+export function MediaSection({ movieId, videos, backdrops, posters }: MediaSectionProps) {
   const [activeTab, setActiveTab] = useState<TabType>("popular");
 
   // Lấy ra các video từ YouTube
@@ -60,6 +62,16 @@ export function MediaSection({ videos, backdrops, posters }: MediaSectionProps) 
         Posters <span className="opacity-60 text-xs ml-1">{posters.length}</span>
         {activeTab === "posters" && <div className="absolute -bottom-[9px] left-0 w-full h-1 bg-foreground rounded-t-md" />}
       </button>
+
+      {
+        activeTab !== "popular" && (
+          <Link 
+            href={`/movie/${movieId}/${activeTab === "videos" ? "videos" : `images/${activeTab}`}`}
+            className="ml-auto font-semibold text-sky-500 dark:text-sky-600 underline text-sm cursor-pointer hover:text-sky-400 whitespace-nowrap transition-colors relative">
+            View all {activeTab}
+          </Link>
+        )
+      }
     </div>
   );
 
@@ -95,7 +107,7 @@ export function MediaSection({ videos, backdrops, posters }: MediaSectionProps) 
         })}
 
         {/* Render Tab: Videos */}
-        {activeTab === "videos" && youtubeVideos.map((video) => (
+        {activeTab === "videos" && youtubeVideos.slice(0, 10).map((video) => (
           <a key={video.id} href={`https://www.youtube.com/watch?v=${video.key}`} target="_blank" rel="noreferrer" className="relative w-[300px] md:w-[500px] shrink-0 aspect-video snap-start group overflow-hidden rounded-lg bg-black">
             <Image src={`https://img.youtube.com/vi/${video.key}/hqdefault.jpg`} alt={video.name} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -107,14 +119,14 @@ export function MediaSection({ videos, backdrops, posters }: MediaSectionProps) 
         ))}
 
         {/* Render Tab: Backdrops */}
-        {activeTab === "backdrops" && backdrops.map((backdrop, idx) => (
+        {activeTab === "backdrops" && backdrops.slice(0, 10).map((backdrop, idx) => (
           <div key={idx} className="relative w-[300px] md:w-[500px] shrink-0 aspect-video snap-start overflow-hidden rounded-lg bg-muted">
             <Image src={`https://image.tmdb.org/t/p/w533_and_h300_bestv2${backdrop.file_path}`} alt="Backdrop" fill className="object-cover" />
           </div>
         ))}
 
         {/* Render Tab: Posters (Tỷ lệ 2:3 khác với video/backdrop) */}
-        {activeTab === "posters" && posters.map((poster, idx) => (
+        {activeTab === "posters" && posters.slice(0, 10).map((poster, idx) => (
           <div key={idx} className="relative w-[150px] md:w-[200px] shrink-0 aspect-[2/3] snap-start overflow-hidden rounded-lg bg-muted border border-border">
             <Image src={`https://image.tmdb.org/t/p/w220_and_h330_face${poster.file_path}`} alt="Poster" fill className="object-cover" />
           </div>
