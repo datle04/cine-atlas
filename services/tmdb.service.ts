@@ -1,5 +1,5 @@
 import { tmdbClient } from "@/lib/tmdb-client";
-import { Credits, Genre, ImageResponse, KeywordsResponse, Movie, MovieDetails, Person, PersonDetails, ReviewsResponse, TMDBResponse, TV, TVDetails, VideosResponse } from "@/types/tmdb";
+import { Credits, Genre, ImageResponse, KeywordsResponse, Movie, MovieDetails, Person, PersonDetails, ReviewsResponse, TMDBResponse, TranslationsResponse, TV, TVDetails, VideosResponse } from "@/types/tmdb";
 import { cache } from "react";
 
 // ==========================================
@@ -134,15 +134,17 @@ export const getTVGenres = cache(async () => {
 // ==========================================
 // 6. MEDIA
 // ==========================================
-export const getMovieAllVideos = cache(async (id: string | number) => {
-  const { data } = await tmdbClient.get<VideosResponse>(`/movie/${id}/videos`);
+export const getMovieAllVideos = cache(async (id: string | number, language: string = "") => {
+  const { data } = await tmdbClient.get<VideosResponse>(`/movie/${id}/videos`, {
+    params:  { language}
+  });
   return data.results;
 });
 
 // Lấy hình ảnh (Backdrops, Posters, Logos) của phim
-export const getMovieImages = cache(async (id: string | number) => {
+export const getMovieImages = cache(async (id: string | number, language: string = "") => {
   const { data } = await tmdbClient.get<ImageResponse>(`/movie/${id}/images`, {
-    params: { include_image_language: 'en,null' } 
+    params: { language } 
   });
   return data;
 });
@@ -150,4 +152,9 @@ export const getMovieImages = cache(async (id: string | number) => {
 export const getMovieKeywords = cache(async (id: string | undefined) => {
   const { data } = await tmdbClient.get<KeywordsResponse>(`/movie/${id}/keywords`);
   return data.keywords;
+});
+
+export const getMovieTranslations = cache(async (id: string | undefined) => {
+  const { data } = await tmdbClient.get<TranslationsResponse>(`/movie/${id}/translations`);
+  return data.translations;
 });

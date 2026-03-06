@@ -269,9 +269,13 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
                 <h4 className="font-bold text-foreground">Keywords</h4>
                 <div className="flex flex-wrap gap-2">
                   {keywords.map((keyword, idx) => (
-                    <span key={keyword.id} className="px-3 py-1 bg-secondary text-secondary-foreground rounded-md text-xs font-medium border border-border/50 hover:bg-muted cursor-pointer transition-colors">
+                    <Link 
+                      href={`/`} 
+                      key={keyword.id} 
+                      className="px-3 py-1 bg-secondary text-secondary-foreground rounded-md text-xs font-medium border border-border/50 hover:scale-105 hover:bg-slate-600 cursor-pointer transition-all"
+                    >
                       {keyword.name}
-                    </span>
+                    </Link>
                   ))}
                 </div>
               </div>
