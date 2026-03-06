@@ -200,9 +200,9 @@ export default async function MovieDetailPage({ params }: MovieDetailPageProps) 
               )} 
 
                 <div className="px-2">
-                    <span className="flex items-end gap-2 text-lg font-semibold underline hover:text-slate-600 dark:hover-text-slate-300 transition-all cursor-pointer">
+                    <Link href={`/movie/${id}/reviews`} className="flex items-end gap-2 text-lg font-semibold underline hover:text-slate-600 dark:hover-text-slate-300 transition-all cursor-pointer">
                         <UserStar /> Read all Reviews 
-                    </span>
+                    </Link>
                 </div>
 
               {/* Media Section */}
