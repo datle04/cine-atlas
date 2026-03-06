@@ -339,6 +339,20 @@ export interface Keyword {
     name: string;
 }
 
+export interface Translation {
+    iso_3166_1: string;
+    iso_639_1: string;
+    name: string;
+    english_name: string;
+    data: {
+        homepage: string;
+        overview: string;
+        runtime: number | 0;
+        tagline: string;
+        title: string;
+    };
+}
+
 export interface ImageItem {
     aspect_ratio: number | 0;
     height: number | 0;
@@ -373,6 +387,11 @@ export interface ReviewsResponse {
     results: (Omit<Review, "iso_639_1" | "media_id" | "media_title" | "media_type">)[];
     total_pages: number;
     total_results: number;
+}
+
+export interface TranslationsResponse {
+    id: number | 0;
+    translations: Translation[];
 }
 
 export interface TMDBResponse<T>{

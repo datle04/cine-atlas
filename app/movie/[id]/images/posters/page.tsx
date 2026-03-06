@@ -1,21 +1,34 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { getMovieDetails, getMovieImages } from "@/services/tmdb.service";
+import { getMovieDetails, getMovieImages, getMovieTranslations } from "@/services/tmdb.service";
 import { PageTransition } from "@/components/shared/page-transition";
+import { LanguageSidebar } from "@/components/features/movie/language-sidebar";
 
 interface PostersPageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ language?: string }>;
 }
 
-export default async function PostersPage({ params }: PostersPageProps) {
+export default async function PostersPage({ params, searchParams }: PostersPageProps) {
   const { id } = await params;
 
+  const resolvedSearchParams = await searchParams;
+  const currentLanguage = resolvedSearchParams.language || "en";
+
   // Gọi API lấy chi tiết phim (để lấy Tên phim) và toàn bộ hình ảnh
-  const [movie, imagesData] = await Promise.all([
+  const [movie, imagesData, translationsData] = await Promise.all([
     getMovieDetails(id),
-    getMovieImages(id),
+    getMovieImages(id, currentLanguage),
+    getMovieTranslations(id),
   ]);
+
+  const availableLanguages = translationsData.map(t => ({
+    code: t.iso_639_1,
+    name: t.english_name || t.name,
+  }));
+
+  availableLanguages.unshift({ code: "null", name: "No Language (Textless)" });
 
   const posters = imagesData.posters || [];
   const releaseYear = movie.release_date?.substring(0, 4);
@@ -50,44 +63,52 @@ export default async function PostersPage({ params }: PostersPageProps) {
           </div>
         </div>
 
-        {/* TIÊU ĐỀ MỤC & SỐ LƯỢNG */}
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold">Posters</h2>
-          <span className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold">
-            {posters.length} Images
-          </span>
-        </div>
+        <div className="flex flex-col md:flex-row gap-8 items-start">
 
-        {/* LƯỚI HÌNH ẢNH (GRID) */}
-        {posters.length > 0 ? (
-          <div className="grid sgrid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            {posters.map((image, idx) => (
-              <div 
-                key={idx} 
-                className="relative aspect-[2/3] rounded-xl overflow-hidden bg-muted shadow-sm group border border-border/50"
-              >
-                <Image 
-                  src={`https://image.tmdb.org/t/p/w500${image.file_path}`} 
-                  alt={`Backdrop ${idx + 1}`} 
-                  fill 
-                  className="object-cover transition-transform duration-500 group-hover:scale-110" 
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                
-                {/* Lớp phủ mờ hiển thị kích thước ảnh khi Hover */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                  <span className="text-white font-medium text-sm">
-                    {image.width} x {image.height}
-                  </span>
-                </div>
+          <LanguageSidebar availableLanguages={availableLanguages}/>
+
+          <div className="flex-1 w-full space-y-8">
+            {/* TIÊU ĐỀ MỤC & SỐ LƯỢNG */}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold">Posters</h2>
+              <span className="px-3 py-1 bg-secondary text-secondary-foreground rounded-full text-sm font-semibold">
+                {posters.length} Images
+              </span>
+            </div>
+
+            {/* LƯỚI HÌNH ẢNH (GRID) */}
+            {posters.length > 0 ? (
+              <div className="grid sgrid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                {posters.map((image, idx) => (
+                  <div 
+                    key={idx} 
+                    className="relative aspect-[2/3] rounded-xl overflow-hidden bg-muted shadow-sm group border border-border/50"
+                  >
+                    <Image 
+                      src={`https://image.tmdb.org/t/p/w500${image.file_path}`} 
+                      alt={`Backdrop ${idx + 1}`} 
+                      fill 
+                      className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    
+                    {/* Lớp phủ mờ hiển thị kích thước ảnh khi Hover */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                      <span className="text-white font-medium text-sm">
+                        {image.width} x {image.height}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            ) : (
+              <div className="text-center py-20 text-muted-foreground border-2 border-dashed border-border rounded-xl">
+                No posters available for this movie.
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="text-center py-20 text-muted-foreground border-2 border-dashed border-border rounded-xl">
-            No posters available for this movie.
-          </div>
-        )}
+
+        </div>
 
       </div>
     </PageTransition>
