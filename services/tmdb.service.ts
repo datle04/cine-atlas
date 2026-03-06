@@ -87,6 +87,28 @@ export const getTVVideos = cache(async (id: string | number) => {
   return data.results.filter((vid) => vid.site === "YouTube" && vid.type === "Trailer");
 });
 
+export const getTVAllVideos = cache(async (id: string | number, language: string = "en") => {
+  const { data } = await tmdbClient.get<VideosResponse>(`/tv/${id}/videos`, { params: { language } });
+  return data.results;
+});
+
+export const getTVImages = cache(async (id: string | number, language: string = "en") => {
+  const { data } = await tmdbClient.get<ImageResponse>(`/tv/${id}/images`, {
+    params: { language, include_image_language: 'en,null' }
+  });
+  return data;
+});
+
+export const getSimilarTVShows = cache(async (id: string | number) => {
+  const { data } = await tmdbClient.get<TMDBResponse<TV>>(`/tv/${id}/similar`);
+  return data.results;
+});
+
+export const getTVReviews = cache(async (id: string | number, page = 1) => {
+  const { data } = await tmdbClient.get<ReviewsResponse>(`/tv/${id}/reviews`, { params: { page } });
+  return data;
+});
+
 // ==========================================
 // 4. PEOPLE (actor / actress, director...)
 // ==========================================
